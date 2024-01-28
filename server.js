@@ -14,7 +14,8 @@ MongoClient.connect(dbConnectionStr/*, { useUnifiedTypology: true }*/)
         db = client.db(dbName);
     });
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');  
+app.set('views', __dirname + '/views');
 app.use(express.static('public'));
 app.use(express.urlencoded( {extended: true} ));
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use(express.json());
 app.get('/', (request, response) => {
     db.collection('letters').find().sort({likes:-1}).toArray()
     .then(data => {
-        response.render('index.ejs', { info: data });
+        response.render('index', { info: data });
     })
     .catch(error => console.error(error));
 });
